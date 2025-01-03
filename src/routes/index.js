@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
 
 // GET /login - render login page
 router.get("/login", (req, res) => {
-  res.send("endpoint not implemented");
+  res.render("./login");
 });
 
 // POST /login - login user
@@ -26,7 +26,7 @@ router.post("/login", (req, res) => {
 
 // GET /signup - render sign up page
 router.get("/signup", (req, res) => {
-  res.send("endpoint not implemented");
+  res.render("./signup");
 });
 
 // POST /login - login user
