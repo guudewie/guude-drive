@@ -1,37 +1,27 @@
 const express = require("express");
 const router = express.Router();
+const authController = require("../controllers/auth");
+const authenticate = require("../middleware/authenticate");
 
 // GET - main page
-router.get("/", (req, res) => {
-  res.send("endpoint not implemented");
+router.get("/", authenticate, (req, res) => {
+  res.send(`Hello ${res.locals.currentUser.username}`);
 });
 
-/**************************************/
 /************* LOGIN ******************/
-/**************************************/
 
 // GET /login - render login page
-router.get("/login", (req, res) => {
-  res.render("./login");
-});
+router.get("/login", authController.getLoginForm);
 
 // POST /login - login user
-router.post("/login", (req, res) => {
-  res.send("endpoint not implemented");
-});
+router.post("/login", authController.login);
 
-/**************************************/
 /************ SIGNUP ******************/
-/**************************************/
 
 // GET /signup - render sign up page
-router.get("/signup", (req, res) => {
-  res.render("./signup");
-});
+router.get("/signup", authController.getSignupForm);
 
 // POST /login - login user
-router.post("/signup", (req, res) => {
-  res.send("endpoint not implemented");
-});
+router.post("/signup", authController.signup);
 
 module.exports = router;

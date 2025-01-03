@@ -22,7 +22,7 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(expressSession);
-//app.use(passport.session());
+app.use(passport.session());
 
 // Custom Middleware
 app.use((req, res, next) => {

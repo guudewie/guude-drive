@@ -7,8 +7,10 @@ const getLoginForm = asyncHandler(async (req, res, next) => {
   res.render("./login");
 });
 
-const login = asyncHandler(async (req, res, next) => {
-  res.render("./login");
+const login = passport.authenticate("local", {
+  failureRedirect: "/login",
+  failureMessage: true,
+  successRedirect: "/",
 });
 
 const getSignupForm = asyncHandler(async (req, res, next) => {

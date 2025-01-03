@@ -1,7 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
-const { findUserByUsername } = require("../models/userModel");
+const { findUserByUsername, findUserById } = require("../models/userModel");
 
 const verifyCallback = async (username, password, done) => {
   try {
@@ -11,7 +11,7 @@ const verifyCallback = async (username, password, done) => {
       return done(null, false, { message: "Incorrect username" });
     }
 
-    const match = await bcrypt.compare(password, user.pass_hash);
+    const match = await bcrypt.compare(password, user.password);
 
     if (match) {
       return done(null, user);
@@ -31,7 +31,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (userId, done) => {
   try {
-    const user = await db.getUserById(userId);
+    const user = await findUserById(userId);
     done(null, user);
   } catch (err) {
     done(err);
