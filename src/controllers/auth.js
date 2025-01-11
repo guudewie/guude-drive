@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const { createUser } = require("../models/userModel");
 
 const getLoginForm = asyncHandler(async (req, res, next) => {
-  res.render("./login");
+  res.render("./partials/login", { layout: "./layoutAuth" });
 });
 
 const login = passport.authenticate("local", {
