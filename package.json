@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch src/app.js",
     "start": "node src/app.js",
-    "build:css": "npx tailwindcss -i ./src/public/styles/input.css -o ./src/public/styles/output.css --watch"
+    "build:css": "npx tailwindcss -i ./src/public/styles/styles.css -o ./src/public/styles/output.css --watch"
   },
   "keywords": [],
   "author": "",
