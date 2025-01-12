@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 require("./config/passport");
 
 // view engine setup
-//app.use(expressLayouts);
+app.use(expressLayouts);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
