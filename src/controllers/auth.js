@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
-const { validationResult, matchedData } = require("express-validator");
+const { validationResult } = require("express-validator");
 const { createUser } = require("../models/userModel");
 const validateSignup = require("../middleware/validateSignup");
 
