@@ -4,20 +4,20 @@ const userModel = require("../models/userModel");
 const validateSignup = [
   body("firstname")
     .trim()
-    .isEmpty()
+    .notEmpty()
     .withMessage("'Please fill in this field'")
     .isLength({ min: 3 })
     .withMessage("'Must have min. 3 characters'"),
   body("lastname")
     .trim()
-    .isEmpty()
+    .notEmpty()
     .withMessage("'Please fill in this field'")
     .isLength({ min: 3 })
     .withMessage("'Must have min. 3 characters'"),
   body("username")
     .trim()
     .custom(async (value) => {
-      const user = userModel.findUserByUsername(value);
+      const user = await userModel.findUserByUsername(value);
       if (user) {
         throw new Error("'Username already taken'");
       }
@@ -35,7 +35,7 @@ const validateSignup = [
     }),
   body("confirm_password")
     .trim()
-    .custom((value) => {
+    .custom((value, { req }) => {
       if (req.body.password !== value) {
         throw new Error("'Passwords don't match'");
       }
