@@ -16,6 +16,10 @@ const validateSignup = [
     .withMessage("'Must have min. 3 characters'"),
   body("username")
     .trim()
+    .notEmpty()
+    .withMessage("'Please fill in this field'")
+    .isLength({ min: 3 })
+    .withMessage("'Must have min. 3 characters'")
     .custom(async (value) => {
       const user = await userModel.findUserByUsername(value);
       if (user) {
