@@ -1,12 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const authController = require("../controllers/auth");
 const authenticate = require("../middleware/authenticate");
+const authController = require("../controllers/auth");
+const mainController = require("../controllers/main");
 
 // GET - main page
-router.get("/", authenticate, (req, res) => {
-  res.send(`Hello ${res.locals.currentUser.username}`);
-});
+router.get("/", authenticate, mainController.getMainPage);
 
 /************* LOGIN ******************/
 
@@ -23,5 +22,10 @@ router.get("/signup", authController.getSignupForm);
 
 // POST /login - login user
 router.post("/signup", authController.signup);
+
+/************ LOGOUT ******************/
+
+// GET /logout - logout user
+router.get("/logout", authController.logout);
 
 module.exports = router;
