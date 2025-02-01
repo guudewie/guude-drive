@@ -8,11 +8,13 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  username  String  @unique
+  id        String   @id @default(uuid(7))
+  username  String   @unique
   password  String
   firstName String?
   lastName  String?
+  File      File[]
+  Folder    Folder[]
 }
 
 model Session {
@@ -20,4 +22,31 @@ model Session {
   sid       String   @unique
   data      String
   expiresAt DateTime
+}
+
+model File {
+  id         String   @id @default(uuid(7))
+  user       User     @relation(fields: [userId], references: [id])
+  folder     Folder   @relation(fields: [folderId], references: [id])
+  name       String
+  size       Int
+  mimeType   String
+  storageUrl String
+  uploadedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  folderId   String
+  userId     String
+}
+
+model Folder {
+  id           String   @id @default(uuid(7))
+  uer          User     @relation(fields: [userId], references: [id])
+  name         String
+  parentFolder Folder?  @relation("FolderToFolder", fields: [folderId], references: [id])
+  childFolders Folder[] @relation("FolderToFolder")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  File         File[]
+  folderId     String
+  userId       String
 }
