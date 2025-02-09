@@ -50,6 +50,6 @@ model Folder {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   File         File[]
-  folderId     String
+  folderId     String?
   rootOwner    User?    @relation("UserRootFolder")
 }
