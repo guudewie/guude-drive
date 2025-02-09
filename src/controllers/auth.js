@@ -51,12 +51,12 @@ const signup = [
     bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
       if (err) next(err);
 
-      await createUser({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        username: req.body.username,
-        password: hashedPassword,
-      });
+      await createUser(
+        req.body.firstname,
+        req.body.lastname,
+        req.body.username,
+        hashedPassword
+      );
     });
 
     res.redirect("/login");
