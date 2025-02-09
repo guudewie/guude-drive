@@ -13,7 +13,7 @@ const createFolder = async (userId, name, folderId) => {
 };
 
 // read folder of folder
-const readFolder = async (folderId, userId) => {
+const readFolders = async (folderId, userId) => {
   return await prisma.folder.findMany({
     where: {
       AND: [{ folderId }, { userId }],
@@ -36,4 +36,4 @@ const deleteFolder = async (folderId) => {
   });
 };
 
-module.exports = { createFolder, readFolder, updateFolder, deleteFolder };
+module.exports = { createFolder, readFolders, updateFolder, deleteFolder };
