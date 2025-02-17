@@ -15,13 +15,12 @@ const getMainPage = asyncHandler(async (req, res, next) => {
     req.user.id
   );
 
-  const formattedContent = [...File, ...childFolders].map((item) => {
-    return {
-      ...item,
-      updatedAt: formatDate(item.updatedAt),
-      size: formatBytes(item.size),
-    };
-  });
+  const content = [...File, ...childFolders];
+  const formattedContent = content.map((item) => ({
+    ...item,
+    updatedAt: formatDate(item.updatedAt),
+    size: formatBytes(item.size),
+  }));
 
   console.log(formattedContent);
 
