@@ -20,7 +20,11 @@ const createUser = async (firstName, lastName, username, password) => {
     },
   });
 
-  return { user, rootFolder };
+  // link rootFolder back to user
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { rootFolderId: rootFolder.id },
+  });
 };
 
 const findUserById = async (id) => {
@@ -35,4 +39,15 @@ const findUserByUsername = async (username) => {
   });
 };
 
-module.exports = { createUser, findUserById, findUserByUsername };
+const getUserRootFolder = async (userId) => {
+  return await prisma.user.findUnique({
+    where: { userId },
+  });
+};
+
+module.exports = {
+  createUser,
+  findUserById,
+  findUserByUsername,
+  getUserRootFolder,
+};

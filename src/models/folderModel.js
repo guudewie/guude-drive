@@ -13,10 +13,15 @@ const createFolder = async (userId, name, folderId) => {
 };
 
 // read folder of folder
-const readFolders = async (folderId, userId) => {
-  return await prisma.folder.findMany({
+const getFolderContents = async (folderId, userId) => {
+  return await prisma.folder.findUnique({
     where: {
-      AND: [{ folderId }, { userId }],
+      id: folderId,
+      userId: userId,
+    },
+    include: {
+      childFolders: true,
+      File: true,
     },
   });
 };
@@ -36,4 +41,9 @@ const deleteFolder = async (folderId) => {
   });
 };
 
-module.exports = { createFolder, readFolders, updateFolder, deleteFolder };
+module.exports = {
+  createFolder,
+  getFolderContents,
+  updateFolder,
+  deleteFolder,
+};
