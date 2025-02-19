@@ -3,9 +3,12 @@ const router = express.Router();
 const authenticate = require("../middleware/authenticate");
 const authController = require("../controllers/auth");
 const mainController = require("../controllers/main");
+const fileController = require("../controllers/file");
+const folderController = require("../controllers/folder");
 
 // GET - main page
-router.get("/", authenticate, mainController.getMainPage);
+router.get("/my-drive/:folderId?", authenticate, mainController.getMainPage);
+router.get("/", (req, res) => res.redirect("/my-drive"));
 
 /************* LOGIN ******************/
 
@@ -27,5 +30,23 @@ router.post("/signup", authController.signup);
 
 // GET /logout - logout user
 router.get("/logout", authController.logout);
+
+/************ UPLOAD ******************/
+
+// GET /logout - logout user
+router.post("/upload", authenticate, fileController.uploadFile);
+
+/************ FOLDER ******************/
+
+// GET /logout - logout user
+router.post("/new-folder", authenticate, folderController.createNewFolder);
+
+/************ 404 ******************/
+
+// router.get("*", (req, res) => {
+//   res.send(
+//     "* is a great way to catch all otherwise unmatched paths, e.g. for custom 404 error handling."
+//   );
+// });
 
 module.exports = router;

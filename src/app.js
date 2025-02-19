@@ -2,9 +2,12 @@ require("dotenv").config();
 
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
+
 const expressSession = require("./config/session");
-const path = require("node:path");
 const passport = require("passport");
+
+const path = require("node:path");
+
 const indexRouter = require("./routes/index");
 
 const app = express();

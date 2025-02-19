@@ -25,7 +25,7 @@
                             <p class="mb-2 text-sm text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                             <p class="text-xs text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                         </div>
-                        <form action="/upload" method="post" enctype="multipart/form-data" id="uploadFile">
+                        <form action="/upload?folderId=<%= folderId %>" method="post" enctype="multipart/form-data" id="uploadFile">
                             <input id="dropzone-file" type="file" class="hidden" name="file" />
                         </form>
                     </label>
