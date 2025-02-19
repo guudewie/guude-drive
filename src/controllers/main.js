@@ -3,6 +3,7 @@ const fileModel = require("../models/fileModel");
 const folderModel = require("../models/folderModel");
 const formatDate = require("../lib/utils/formatTime");
 const formatBytes = require("../lib/utils/formatBytes");
+const getFolderPath = require("../lib/utils/getBreadCrumbz");
 
 const getMainPage = asyncHandler(async (req, res, next) => {
   // take root folder if url has no folderid param
@@ -10,6 +11,7 @@ const getMainPage = asyncHandler(async (req, res, next) => {
     ? req.params.folderId
     : res.locals.currentUser.rootFolderId;
 
+  // GET FOLDER CONTENTS
   const { childFolders, File } = await folderModel.getFolderContents(
     folderId,
     req.user.id
@@ -28,12 +30,14 @@ const getMainPage = asyncHandler(async (req, res, next) => {
 
   const formattedContent = [...formattedFiles, ...formattedFolders];
 
-  // somehow authenticate, that a user can only access his own files
+  // GET BREADCRUMZ
+  const breadcrumbz = await getFolderPath(folderId);
 
   res.render("./partials/main", {
     layout: "./layout",
     folderId,
     content: formattedContent,
+    breadcrumbz: breadcrumbz,
   });
 });
 
