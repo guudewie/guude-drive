@@ -21,7 +21,7 @@ const uploadFile = [
       );
     }
 
-    res.redirect("/");
+    res.redirect(`/my-drive/${req.query.folderId}`);
   }),
 ];
 

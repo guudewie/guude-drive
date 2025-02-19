@@ -15,14 +15,18 @@ const getMainPage = asyncHandler(async (req, res, next) => {
     req.user.id
   );
 
-  const content = [...File, ...childFolders];
-  const formattedContent = content.map((item) => ({
+  const formattedFiles = File.map((item) => ({
     ...item,
     updatedAt: formatDate(item.updatedAt),
     size: formatBytes(item.size),
   }));
 
-  console.log(formattedContent);
+  const formattedFolders = childFolders.map((item) => ({
+    ...item,
+    updatedAt: formatDate(item.updatedAt),
+  }));
+
+  const formattedContent = [...formattedFiles, ...formattedFolders];
 
   // somehow authenticate, that a user can only access his own files
 
