@@ -46,12 +46,17 @@ router.post("/new-folder", authenticate, folderController.createNewFolder);
 // POST /logout - logout user
 router.post("/update/:itemId", authenticate, mainController.updateContent);
 
+/************ DELETE ******************/
+
+// POST /logout - logout user
+router.post("/delete/:itemId", authenticate, mainController.deleteContent);
+
 /************ 404 ******************/
 
-// router.get("*", (req, res) => {
-//   res.send(
-//     "* is a great way to catch all otherwise unmatched paths, e.g. for custom 404 error handling."
-//   );
-// });
+router.get("*", (req, res) => {
+  res.send(
+    "* is a great way to catch all otherwise unmatched paths, e.g. for custom 404 error handling."
+  );
+});
 
 module.exports = router;

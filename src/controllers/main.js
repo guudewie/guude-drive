@@ -61,4 +61,8 @@ const updateContent = asyncHandler(async (req, res, next) => {
   res.redirect(`/my-drive/${parentFolderId}`);
 });
 
-module.exports = { getMainPage, updateContent };
+const deleteContent = asyncHandler(async (req, res, next) => {
+  res.send("leeel");
+});
+
+module.exports = { getMainPage, updateContent, deleteContent };
