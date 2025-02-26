@@ -32,9 +32,9 @@ const readFiles = async (folderId, userId) => {
 };
 
 // update file ( name )
-const updateFile = async (fileId, name) => {
+const updateFile = async (userId, fileId, name) => {
   return await prisma.file.update({
-    where: { fileId },
+    where: { id: fileId, userId: userId },
     data: { name },
   });
 };

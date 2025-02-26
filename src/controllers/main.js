@@ -4,6 +4,7 @@ const folderModel = require("../models/folderModel");
 const formatDate = require("../lib/utils/formatTime");
 const formatBytes = require("../lib/utils/formatBytes");
 const getFolderPath = require("../lib/utils/getBreadCrumbz");
+const formatFolderName = require("../lib/utils/formatFolderName");
 
 const getMainPage = asyncHandler(async (req, res, next) => {
   // take root folder if url has no folderid param
@@ -35,10 +36,29 @@ const getMainPage = asyncHandler(async (req, res, next) => {
 
   res.render("./partials/main", {
     layout: "./layout",
-    folderId,
+    folderId, // current folder id
     content: formattedContent,
     breadcrumbz: breadcrumbz,
   });
 });
 
-module.exports = { getMainPage };
+const updateContent = asyncHandler(async (req, res, next) => {
+  const itemId = req.params.itemId;
+  const type = req.query.type;
+  const userId = req.user.id;
+  const parentFolderId = req.body.folderId;
+  let newName = req.body.name;
+
+  if (type == "folder") {
+    // format name before updating
+    const siblingFolders = await folderModel.getFolderOfFolder();
+    newName = formatFolderName(newName, siblingFolders);
+    folderModel.updateFolder(userId, itemId, newName);
+  } else {
+    fileModel.updateFile(userId, itemId, newName);
+  }
+
+  res.redirect(`/my-drive/${parentFolderId}`);
+});
+
+module.exports = { getMainPage, updateContent };

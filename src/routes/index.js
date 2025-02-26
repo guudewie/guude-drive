@@ -41,6 +41,11 @@ router.post("/upload", authenticate, fileController.uploadFile);
 // GET /logout - logout user
 router.post("/new-folder", authenticate, folderController.createNewFolder);
 
+/************ UPDATE ******************/
+
+// POST /logout - logout user
+router.post("/update/:itemId", authenticate, mainController.updateContent);
+
 /************ 404 ******************/
 
 // router.get("*", (req, res) => {

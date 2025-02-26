@@ -32,9 +32,9 @@ const getFolderOfFolder = async (parentFolderId) => {
   });
 };
 
-const updateFolder = async (folderId, name) => {
+const updateFolder = async (userId, folderId, name) => {
   return await prisma.folder.update({
-    where: { folderId },
+    where: { id: folderId, userId: userId },
     data: { name },
   });
 };

@@ -11,6 +11,7 @@
       </li>
       
       <% if (breadcrumbz.length > 1 && breadcrumbz.length <= 3) { %>
+        <!-- Render all folders if three or less folders -->
         <% for (let i = 1; i < breadcrumbz.length; i++) { %>
           <li>
             <div class="flex items-center">
@@ -21,6 +22,7 @@
             </div>
           </li>
         <% } %>
+        <!-- Render "..." and only last two folders if more then three folders -->
       <% } else if (breadcrumbz.length > 3) { %>
         <li>
           <div class="flex items-center">
