@@ -33,8 +33,6 @@ const downloadFile = asyncHandler(async (req, res, next) => {
     return res.status(404).json({ message: "File not found" });
   }
 
-  console.log(file);
-
   res.download(file.storageUrl, file.name, (err) => {
     if (err) {
       return next(err);
