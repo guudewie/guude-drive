@@ -53,16 +53,26 @@ const updateContent = asyncHandler(async (req, res, next) => {
     // format name before updating
     const siblingFolders = await folderModel.getFolderOfFolder();
     newName = formatFolderName(newName, siblingFolders);
-    folderModel.updateFolder(userId, itemId, newName);
+    await folderModel.updateFolder(userId, itemId, newName);
   } else {
-    fileModel.updateFile(userId, itemId, newName);
+    await fileModel.updateFile(userId, itemId, newName);
   }
 
   res.redirect(`/my-drive/${parentFolderId}`);
 });
 
 const deleteContent = asyncHandler(async (req, res, next) => {
-  res.send("leeel");
+  const itemId = req.params.itemId;
+  const type = req.query.type;
+  const userId = req.user.id;
+  const parentFolderId = req.body.folderId;
+
+  if (type == "folder") {
+    await folderModel.deleteFolder(itemId, userId);
+  } else {
+    await fileModel.deleteFile(itemId, userId);
+  }
+  res.redirect(`/my-drive/${parentFolderId}`);
 });
 
 module.exports = { getMainPage, updateContent, deleteContent };

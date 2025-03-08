@@ -10,7 +10,7 @@ const createFile = async (
   mimeType,
   storageUrl
 ) => {
-  return await prisma.file.create({
+  return prisma.file.create({
     data: {
       userId,
       folderId,
@@ -24,7 +24,7 @@ const createFile = async (
 
 // read files of folder
 const readFiles = async (folderId, userId) => {
-  return await prisma.file.findMany({
+  return prisma.file.findMany({
     where: {
       AND: [{ folderId }, { userId }],
     },
@@ -33,16 +33,16 @@ const readFiles = async (folderId, userId) => {
 
 // update file ( name )
 const updateFile = async (userId, fileId, name) => {
-  return await prisma.file.update({
+  return prisma.file.update({
     where: { id: fileId, userId: userId },
     data: { name },
   });
 };
 
 // delete file
-const deleteFile = async (fileId) => {
-  return await prisma.file.delete({
-    where: { fileId },
+const deleteFile = async (fileId, userId) => {
+  return prisma.file.delete({
+    where: { fileId, userId },
   });
 };
 
