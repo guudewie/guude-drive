@@ -51,6 +51,11 @@ router.post("/update/:itemId", authenticate, mainController.updateContent);
 // POST /logout - logout user
 router.post("/delete/:itemId", authenticate, mainController.deleteContent);
 
+/************ DOWNLOAD ****************/
+
+// POST /logout - logout user
+router.get("/download/:fileId", authenticate, fileController.downloadFile);
+
 /************ 404 ******************/
 
 router.get("*", (req, res) => {

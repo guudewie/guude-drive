@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const fileModel = require("../models/fileModel");
 const multer = require("multer");
+const { fi } = require("date-fns/locale");
 const upload = multer({ dest: "uploads/" });
 
 const uploadFile = [
@@ -25,4 +26,20 @@ const uploadFile = [
   }),
 ];
 
-module.exports = { uploadFile };
+const downloadFile = asyncHandler(async (req, res, next) => {
+  const file = await fileModel.getFileById(req.params.fileId, req.user.id);
+
+  if (!file) {
+    return res.status(404).json({ message: "File not found" });
+  }
+
+  console.log(file);
+
+  res.download(file.storageUrl, file.name, (err) => {
+    if (err) {
+      return next(err);
+    }
+  });
+});
+
+module.exports = { uploadFile, downloadFile };
