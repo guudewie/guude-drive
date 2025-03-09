@@ -40,9 +40,19 @@ const updateFolder = async (userId, folderId, name) => {
 };
 
 const deleteFolder = async (folderId, userId) => {
-  return prisma.folder.delete({
+  // const files = await prisma.file.deleteMany({
+  //   where: { folderId, userId },
+  // });
+
+  // const folders = await prisma.folder.deleteMany({
+  //   where: { folderId, userId },
+  // });
+
+  const items = await prisma.folder.delete({
     where: { id: folderId, userId },
   });
+
+  console.log(items);
 };
 
 module.exports = {
