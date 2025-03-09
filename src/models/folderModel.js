@@ -40,14 +40,6 @@ const updateFolder = async (userId, folderId, name) => {
 };
 
 const deleteFolder = async (folderId, userId) => {
-  // const files = await prisma.file.deleteMany({
-  //   where: { folderId, userId },
-  // });
-
-  // const folders = await prisma.folder.deleteMany({
-  //   where: { folderId, userId },
-  // });
-
   const items = await prisma.folder.delete({
     where: { id: folderId, userId },
   });
