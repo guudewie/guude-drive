@@ -1,28 +1,30 @@
 <div class="flex-1">
     <% if (content.length) { %>
-        <table class="w-full text-sm text-left text-gray-400">
-            <thead class="text-xs uppercase bg-gray-700 text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3 w-1/2">Name</th>
-                    <th scope="col" class="px-6 py-3">Last modified</th>
-                    <th scope="col" class="px-6 py-3">File size</th>
-                    <th scope="col" class="px-6 py-3">
-                        <span class="sr-only">Edit</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for (const item of content) { %>
-                    <tr class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600" id="<%= item.id %>">
-                        <% if (item.type == "folder") { %>
-                            <th scope="row">
-                                <a href="/my-drive/<%= item.id ? item.id : null %>" class="flex items-center gap-4 px-6 py-4 font-medium whitespace-nowrap text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                        <path d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z" />
-                                    </svg>
-                                    <%= item.name %>
-                                </a>
-                            </th>
+        <!-- Desktop view -->
+        <div class="hidden md:block overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-400">
+                <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 w-1/2">Name</th>
+                        <th scope="col" class="px-6 py-3">Last modified</th>
+                        <th scope="col" class="px-6 py-3">File size</th>
+                        <th scope="col" class="px-6 py-3">
+                            <span class="sr-only">Edit</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (const item of content) { %>
+                        <tr class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600" id="<%= item.id %>">
+                            <% if (item.type == "folder") { %>
+                                <th scope="row">
+                                    <a href="/my-drive/<%= item.id ? item.id : null %>" class="flex items-center gap-4 px-6 py-4 font-medium whitespace-nowrap text-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                            <path d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z" />
+                                        </svg>
+                                        <%= item.name %>
+                                    </a>
+                                </th>
                             <% } else { %>
                                 <th scope="row" class="flex items-center gap-4 px-6 py-4 font-medium whitespace-nowrap text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -30,12 +32,67 @@
                                     </svg>
                                     <%= item.name %>
                                 </th>
-                        <% } %>
-                        <td class="px-6 py-4"><%= item.updatedAt %></td>
-                        <td class="px-6 py-4"><%= item.size ? item.size : null %></td>
-                        <td class="px-6 py-4">
+                            <% } %>
+                            <td class="px-6 py-4"><%= item.updatedAt %></td>
+                            <td class="px-6 py-4"><%= item.size ? item.size : null %></td>
+                            <td class="px-6 py-4">
+                                <button 
+                                    data-popover-target="dropdown-<%= item.id %>" 
+                                    class="text-white text-center inline-flex items-center" 
+                                    type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                                    </svg>
+                                </button>
+                                <div
+                                    data-popover
+                                    role="tooltip"
+                                    id="dropdown-<%= item.id %>"
+                                    class="z-10 absolute invisible divide-y divide-gray-800 rounded-lg w-44 bg-gray-700 transition-opacity duration-500">
+                                    <%- include("./actionMenu.ejs", { item }) %>
+                                </div>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mobile view -->
+        <div class="block md:hidden">
+            <div class="bg-gray-700 text-gray-400 px-4 py-3 text-xs uppercase">
+                Files & Folders
+            </div>
+            <ul class="text-gray-400 divide-y divide-gray-700">
+                <% for (const item of content) { %>
+                    <li class="bg-gray-800 hover:bg-gray-600" id="<%= item.id %>">
+                        <div class="flex items-center p-4 justify-between">
+                            <% if (item.type == "folder") { %>
+                                <a href="/my-drive/<%= item.id ? item.id : null %>" class="flex items-center gap-3 text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                        <path d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z" />
+                                    </svg>
+                                    <div>
+                                        <div class="font-medium"><%= item.name %></div>
+                                        <div class="text-xs text-gray-400"><%= item.updatedAt %></div>
+                                    </div>
+                                </a>
+                            <% } else { %>
+                                <div class="flex items-center gap-3 text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                    </svg>
+                                    <div>
+                                        <div class="font-medium"><%= item.name %></div>
+                                        <div class="text-xs text-gray-400">
+                                            <%= item.updatedAt %> • <%= item.size ? item.size : 'Unknown size' %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                            
                             <button 
-                                data-popover-target="dropdown-<%= item.id %>" 
+                                data-popover-target="dropdown-mobile-<%= item.id %>" 
                                 class="text-white text-center inline-flex items-center" 
                                 type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer">
@@ -45,40 +102,35 @@
                             <div
                                 data-popover
                                 role="tooltip"
-                                id="dropdown-<%= item.id %>"
+                                id="dropdown-mobile-<%= item.id %>"
                                 class="z-10 absolute invisible divide-y divide-gray-800 rounded-lg w-44 bg-gray-700 transition-opacity duration-500">
                                 <%- include("./actionMenu.ejs", { item }) %>
                             </div>
-                        </td>
-                    </tr>
+                        </div>
+                    </li>
                 <% } %>
-            </tbody>
-        </table>
+            </ul>
+        </div>
     <% } else { %>
-        <table class="w-full text-sm text-left text-gray-400">
-            <thead class="text-xs uppercase bg-gray-700 text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3 w-1/2">Name</th>
-                    <th scope="col" class="px-6 py-3">Last modified</th>
-                    <th scope="col" class="px-6 py-3">File size</th>
-                    <th scope="col" class="px-6 py-3">
-                        <span class="sr-only">Edit</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" class="flex w-full items-center gap-4 px-6 py-4 font-medium whitespace-nowrap text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                        </svg>
-                        No files or Folders
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-        <% } %>
-    </div>
+        <!-- Empty state -->
+        <div class="bg-gray-700 text-gray-400 px-4 py-3 text-xs uppercase hidden md:block">
+            <div class="grid grid-cols-4">
+                <div>Name</div>
+                <div>Last modified</div>
+                <div>File size</div>
+                <div><span class="sr-only">Edit</span></div>
+            </div>
+        </div>
+        <div class="bg-gray-700 text-gray-400 px-4 py-3 text-xs uppercase md:hidden">
+            Files & Folders
+        </div>
+        <div class="bg-gray-800 p-4 flex items-center gap-4 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+            </svg>
+            No files or Folders
+        </div>
+    <% } %>
 
-    <div class="text-yellow-200">current: <%= folderId %></div>
-
+    <div class="text-yellow-200 p-3 text-sm">current: <%= folderId %></div>
+</div>
