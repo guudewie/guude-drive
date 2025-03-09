@@ -5,6 +5,7 @@ const authController = require("../controllers/auth");
 const mainController = require("../controllers/main");
 const fileController = require("../controllers/file");
 const folderController = require("../controllers/folder");
+const itemController = require("../controllers/items");
 
 // GET - main page
 router.get("/my-drive/:folderId?", authenticate, mainController.getMainPage);
@@ -44,12 +45,12 @@ router.post("/new-folder", authenticate, folderController.createNewFolder);
 /************ UPDATE ******************/
 
 // POST /logout - logout user
-router.post("/update/:itemId", authenticate, mainController.updateContent);
+router.post("/update/:itemId", authenticate, itemController.updateContent);
 
 /************ DELETE ******************/
 
 // POST /logout - logout user
-router.post("/delete/:itemId", authenticate, mainController.deleteContent);
+router.post("/delete/:itemId", authenticate, itemController.deleteContent);
 
 /************ DOWNLOAD ****************/
 

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+export function initScrollToItem() {
   // Restore scroll position to the edited item
   const itemName = localStorage.getItem("itemName");
   if (itemName) {
@@ -24,4 +24,4 @@ document.addEventListener("DOMContentLoaded", function () {
     const itemName = createFolderForm.querySelector("[name='name']").value;
     localStorage.setItem("itemName", itemName);
   });
-});
+}

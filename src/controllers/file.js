@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const fileModel = require("../models/fileModel");
 const multer = require("multer");
-const { fi } = require("date-fns/locale");
 const upload = multer({ dest: "uploads/" });
 
 const uploadFile = [

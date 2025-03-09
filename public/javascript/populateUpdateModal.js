@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+export function setupUpdateModal() {
   document
     .querySelectorAll("[data-modal-toggle='update-item']")
     .forEach((button) => {
@@ -16,4 +16,4 @@ document.addEventListener("DOMContentLoaded", () => {
         ).action = `/update/${itemId}?type=${itemType}`;
       });
     });
-});
+}

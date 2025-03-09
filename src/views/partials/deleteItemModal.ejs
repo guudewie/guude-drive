@@ -24,4 +24,11 @@
         </div>
     </div>
 </div>
-    
+<!-- Render Confirmation toast when deleteSucess variable send by server -->
+<% if (deleteSuccess) { %>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setToast("Item deleted!");
+        });
+    </script>
+<% } %>

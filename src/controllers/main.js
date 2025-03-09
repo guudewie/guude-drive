@@ -1,16 +1,18 @@
 const asyncHandler = require("express-async-handler");
-const fileModel = require("../models/fileModel");
 const folderModel = require("../models/folderModel");
 const formatDate = require("../lib/utils/formatTime");
 const formatBytes = require("../lib/utils/formatBytes");
 const getFolderPath = require("../lib/utils/getBreadCrumbz");
-const formatFolderName = require("../lib/utils/formatFolderName");
 
 const getMainPage = asyncHandler(async (req, res, next) => {
   // take root folder if url has no folderid param
   const folderId = req.params.folderId
     ? req.params.folderId
     : res.locals.currentUser.rootFolderId;
+
+  // get info from delete function -> pass variable on to view to render toast
+  const tempDeleteSuccess = req.session.deleteSuccess;
+  req.session.deleteSuccess = false;
 
   // GET FOLDER CONTENTS
   const { childFolders, File } = await folderModel.getFolderContents(
@@ -39,40 +41,8 @@ const getMainPage = asyncHandler(async (req, res, next) => {
     folderId, // current folder id
     content: formattedContent,
     breadcrumbz: breadcrumbz,
+    deleteSuccess: tempDeleteSuccess,
   });
 });
 
-const updateContent = asyncHandler(async (req, res, next) => {
-  const itemId = req.params.itemId;
-  const type = req.query.type;
-  const userId = req.user.id;
-  const parentFolderId = req.body.folderId;
-  let newName = req.body.name;
-
-  if (type == "folder") {
-    // format name before updating
-    const siblingFolders = await folderModel.getFolderOfFolder();
-    newName = formatFolderName(newName, siblingFolders);
-    await folderModel.updateFolder(userId, itemId, newName);
-  } else {
-    await fileModel.updateFile(userId, itemId, newName);
-  }
-
-  res.redirect(`/my-drive/${parentFolderId}`);
-});
-
-const deleteContent = asyncHandler(async (req, res, next) => {
-  const itemId = req.params.itemId;
-  const type = req.query.type;
-  const userId = req.user.id;
-  const parentFolderId = req.body.folderId;
-
-  if (type == "folder") {
-    await folderModel.deleteFolder(itemId, userId);
-  } else {
-    await fileModel.deleteFile(itemId, userId);
-  }
-  res.redirect(`/my-drive/${parentFolderId}`);
-});
-
-module.exports = { getMainPage, updateContent, deleteContent };
+module.exports = { getMainPage };

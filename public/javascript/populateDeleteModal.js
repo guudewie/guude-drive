@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+export function populateDeleteModal() {
   document
     .querySelectorAll("[data-modal-toggle='delete-item']")
     .forEach((button) => {
@@ -20,4 +20,4 @@ document.addEventListener("DOMContentLoaded", () => {
         ).action = `/delete/${itemId}?type=${itemType}`;
       });
     });
-});
+}
