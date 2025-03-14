@@ -36,5 +36,27 @@ app.use((req, res, next) => {
 // Routes
 app.use("/", indexRouter);
 
+// Error handling middleware for server-side rendering
+app.use((err, req, res, next) => {
+  // Log the error
+  console.error("Error:", err);
+
+  // Set appropriate status code
+  const statusCode = err.statusCode || err.status || 500;
+  const message =
+    process.env.NODE_ENV === "development"
+      ? err.message || "Something went wrong!"
+      : "Something went wrong!";
+
+  const errorDetails =
+    process.env.NODE_ENV === "development" ? { stack: err.stack } : {};
+
+  return res.status(statusCode).render("./partials/error", {
+    message,
+    statusCode,
+    ...errorDetails,
+  });
+});
+
 // Start server
 app.listen(PORT, () => console.log(`Running... listening on Port ${PORT}`));

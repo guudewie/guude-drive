@@ -23,18 +23,18 @@ const createFile = async (
 };
 
 const getFileById = async (fileId, userId) => {
-  return prisma.file.findUnique({
+  const file = await prisma.file.findUnique({
     where: { id: fileId, userId },
   });
-};
 
-// read files of folder
-const readFiles = async (folderId, userId) => {
-  return prisma.file.findMany({
-    where: {
-      AND: [{ folderId }, { userId }],
-    },
-  });
+  // user/file combi not found
+  if (!file) {
+    const customError = new Error("File not found");
+    customError.statusCode = 404;
+    throw customError;
+  }
+
+  return file;
 };
 
 // update file ( name )
@@ -52,4 +52,4 @@ const deleteFile = async (fileId, userId) => {
   });
 };
 
-module.exports = { createFile, getFileById, readFiles, updateFile, deleteFile };
+module.exports = { createFile, getFileById, updateFile, deleteFile };

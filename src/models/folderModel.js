@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const asyncHandler = require("express-async-handler");
 
 const createFolder = async (userId, name, folderId) => {
   return prisma.folder.create({
@@ -12,7 +13,7 @@ const createFolder = async (userId, name, folderId) => {
 };
 
 const getFolderContents = async (folderId, userId) => {
-  return prisma.folder.findUnique({
+  const contents = await prisma.folder.findUnique({
     where: {
       id: folderId,
       userId: userId,
@@ -22,6 +23,15 @@ const getFolderContents = async (folderId, userId) => {
       File: true,
     },
   });
+
+  // user/folder combi not found
+  if (!contents) {
+    const customError = new Error("Folder not found");
+    customError.statusCode = 404;
+    throw customError;
+  }
+
+  return contents;
 };
 
 const getFolderOfFolder = async (parentFolderId) => {
@@ -40,11 +50,9 @@ const updateFolder = async (userId, folderId, name) => {
 };
 
 const deleteFolder = async (folderId, userId) => {
-  const items = await prisma.folder.delete({
+  return prisma.folder.delete({
     where: { id: folderId, userId },
   });
-
-  console.log(items);
 };
 
 module.exports = {
