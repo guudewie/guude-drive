@@ -48,7 +48,7 @@ const updateFile = async (userId, fileId, name) => {
 // delete file
 const deleteFile = async (fileId, userId) => {
   return prisma.file.delete({
-    where: { fileId, userId },
+    where: { id: fileId, userId },
   });
 };
 
