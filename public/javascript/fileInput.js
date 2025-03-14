@@ -3,7 +3,7 @@ export function initFileInput() {
   const DROPZONE = document.getElementById("dropzone");
   const FILEINPUT = document.getElementById("dropzone-file");
   const FILENAMESECTION = document.getElementById("file-names");
-  const SUBMIT = document.querySelector('button[type="submit"]');
+  const SUBMIT = document.querySelector("#submit-files");
 
   const allFiles = new DataTransfer();
 
@@ -52,7 +52,6 @@ export function initFileInput() {
     });
 
     updateSubmitButton();
-    console.log(FILEINPUT.files);
   }
 
   function removeFile(index) {
