@@ -1,5 +1,11 @@
 <!-- Desktop -->
-<div class="hidden sm:flex items-center justify-end gap-2">
+<div class="hidden xl:flex items-center justify-end gap-2">
+    <button data-modal-target="share-modal" data-modal-toggle="share-modal" data-toggle="upload-modal" class="flex items-center justify-center px-4 py-2 text-sm font-medium border rounded-lg w-auto focus:outline-none bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700" type="button">
+        <svg class="w-4 h-4 mr-2 text-gray-400 icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.5 3a3.5 3.5 0 0 0-3.456 4.06L8.143 9.704a3.5 3.5 0 1 0-.01 4.6l5.91 2.65a3.5 3.5 0 1 0 .863-1.805l-5.94-2.662a3.53 3.53 0 0 0 .002-.961l5.948-2.667A3.5 3.5 0 1 0 17.5 3Z"/>
+        </svg>
+        Share Folder
+    </button>
     <button data-modal-target="upload-modal" data-modal-toggle="upload-modal" data-toggle="upload-modal" class="flex items-center justify-center px-4 py-2 text-sm font-medium border rounded-lg w-auto focus:outline-none bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700" type="button">
         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-4 mr-2 text-gray-400 icon" viewbox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M12 3a1 1 0 0 1 .78.375l4 5a1 1 0 1 1-1.56 1.25L13 6.85V14a1 1 0 1 1-2 0V6.85L8.78 9.626a1 1 0 1 1-1.56-1.25l4-5A1 1 0 0 1 12 3ZM9 14v-1H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-4v1a3 3 0 1 1-6 0Zm8 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z" clip-rule="evenodd"/>
@@ -14,17 +20,88 @@
     </button>
 </div>
 
+
+
+
+<!-- Medium -->
+<div data-dial-init class="absolute hidden sm:flex xl:hidden right-0 group">
+    <div id="speed-dial-menu-horizontal" class="flex items-center hidden me-4 space-x-2 rtl:space-x-reverse">
+        <button 
+          type="button"
+          data-tooltip-target="tooltip-share" 
+          data-tooltip-placement="top" 
+          data-modal-target="share-modal" 
+          data-modal-toggle="share-modal" 
+          data-toggle="share-modal"
+          class="flex justify-center items-center w-[52px] h-[52px] rounded-full border border-gray-600 shadow-xs hover:text-white text-gray-400  bg-gray-700 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-400">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+              <path d="M14.419 10.581a3.564 3.564 0 0 0-2.574 1.1l-4.756-2.49a3.54 3.54 0 0 0 .072-.71 3.55 3.55 0 0 0-.043-.428L11.67 6.1a3.56 3.56 0 1 0-.831-2.265c.006.143.02.286.043.428L6.33 6.218a3.573 3.573 0 1 0-.175 4.743l4.756 2.491a3.58 3.58 0 1 0 3.508-2.871Z"/>
+            </svg>
+            <span class="sr-only">Share</span>
+        </button>
+        <div id="tooltip-share" role="tooltip" class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 rounded-lg shadow-xs opacity-0 tooltip bg-gray-700">
+            Share
+        </div>
+        <button 
+        type="button"
+        data-tooltip-target="tooltip-print"
+        data-tooltip-placement="top"
+        data-modal-target="new-folder" 
+        data-modal-toggle="new-folder" 
+        data-toggle="new-folder"
+        class="flex justify-center items-center w-[52px] h-[52px] rounded-full border border-gray-600 shadow-xs hover:text-white text-gray-400  bg-gray-700 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-400">
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M5 4a2 2 0 0 0-2 2v1h10.968l-1.9-2.28A2 2 0 0 0 10.532 4H5ZM3 19V9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm9-8.5a1 1 0 0 1 1 1V13h1.5a1 1 0 1 1 0 2H13v1.5a1 1 0 1 1-2 0V15H9.5a1 1 0 1 1 0-2H11v-1.5a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
+        </svg>              
+        <span class="sr-only">New Folder</span>
+        </button>
+        <div id="tooltip-print" role="tooltip" class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+            New Folder
+        </div>
+        <button 
+        type="button"
+        data-tooltip-target="tooltip-download"
+        data-tooltip-placement="top"
+        data-modal-toggle="upload-modal" 
+        data-modal-target="upload-modal" 
+        data-toggle="upload-modal"
+        class="flex justify-center items-center w-[52px] h-[52px] rounded-full border border-gray-600 shadow-xs hover:text-white text-gray-400  bg-gray-700 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-400">
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Zm2 0V2h7a2 2 0 0 1 2 2v6.41A7.5 7.5 0 1 0 10.5 22H6a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M9 16a6 6 0 1 1 12 0 6 6 0 0 1-12 0Zm6-3a1 1 0 0 1 1 1v1h1a1 1 0 1 1 0 2h-1v1a1 1 0 1 1-2 0v-1h-1a1 1 0 1 1 0-2h1v-1a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
+                </svg>              
+                <span class="sr-only">New File</span>
+            </button>
+            <div id="tooltip-download" role="tooltip" class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                New File
+            </div>
+        </div>
+        <button type="button" data-dial-toggle="speed-dial-menu-horizontal" aria-controls="speed-dial-menu-horizontal" aria-expanded="false" class="flex items-center justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
+            <svg class="w-5 h-5 transition-transform group-hover:rotate-45" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+            </svg>
+            <span class="sr-only">Open actions menu</span>
+        </button>
+</div>
+
+
 <!-- Mobile -->
-<div class="sm:hidden fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-    <div class="grid h-full max-w-lg grid-cols-2 mx-auto">
-        <button data-modal-target="upload-modal" data-modal-toggle="upload-modal" data-toggle="upload-modal" type="button" class="inline-flex flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
-            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-4 mr-2 text-gray-400 icon" viewbox="0 0 20 20" fill="currentColor">
+<div class="sm:hidden flex fixed bottom-0 left-0 z-50 w-full h-16  bg-gray-700 border-gray-600">
+    <div class="flex flex-grow">
+        <button data-modal-target="upload-modal" data-modal-toggle="upload-modal" data-toggle="upload-modal" type="button" class="inline-flex gap-1 flex-col flex-grow items-center justify-center font-medium px-5 hover:bg-gray-800">
+            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-4 text-gray-400 icon" viewbox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M12 3a1 1 0 0 1 .78.375l4 5a1 1 0 1 1-1.56 1.25L13 6.85V14a1 1 0 1 1-2 0V6.85L8.78 9.626a1 1 0 1 1-1.56-1.25l4-5A1 1 0 0 1 12 3ZM9 14v-1H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-4v1a3 3 0 1 1-6 0Zm8 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z" clip-rule="evenodd"/>
             </svg>
             <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Upload File</span>
         </button>
-        <button data-modal-target="new-folder" data-modal-toggle="new-folder" type="button" class="inline-flex flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
-            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-4 mr-2 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
+        <button data-modal-target="share-modal" data-modal-toggle="share-modal" data-toggle="upload-modal" class="inline-flex gap-1 flex-grow flex-col items-center justify-center font-medium px-5 hover:bg-gray-800" type="button">
+            <svg class="w-4 h-4 text-gray-400 icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.5 3a3.5 3.5 0 0 0-3.456 4.06L8.143 9.704a3.5 3.5 0 1 0-.01 4.6l5.91 2.65a3.5 3.5 0 1 0 .863-1.805l-5.94-2.662a3.53 3.53 0 0 0 .002-.961l5.948-2.667A3.5 3.5 0 1 0 17.5 3Z"/>
+            </svg>
+            <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Share Folder</span>
+        </button>
+        <button data-modal-target="new-folder" data-modal-toggle="new-folder" type="button" class="inline-flex gap-1 flex-grow flex-col items-center justify-center font-medium px-5 hover:bg-gray-50 dark:hover:bg-gray-800">
+            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-4 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M5 4a2 2 0 0 0-2 2v1h10.968l-1.9-2.28A2 2 0 0 0 10.532 4H5ZM3 19V9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm9-8.5a1 1 0 0 1 1 1V13h1.5a1 1 0 1 1 0 2H13v1.5a1 1 0 1 1-2 0V15H9.5a1 1 0 1 1 0-2H11v-1.5a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
             </svg>
             <span class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">New Folder</span>
