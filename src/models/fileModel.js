@@ -37,6 +37,15 @@ const getFileById = async (fileId, userId) => {
   return file;
 };
 
+const getFilesOfFolder = async (parentFolderId, userId) => {
+  return prisma.file.findMany({
+    where: {
+      folderId: parentFolderId,
+      userId: userId,
+    },
+  });
+};
+
 // update file ( name )
 const updateFile = async (userId, fileId, name) => {
   return prisma.file.update({
@@ -52,4 +61,10 @@ const deleteFile = async (fileId, userId) => {
   });
 };
 
-module.exports = { createFile, getFileById, updateFile, deleteFile };
+module.exports = {
+  createFile,
+  getFileById,
+  getFilesOfFolder,
+  updateFile,
+  deleteFile,
+};

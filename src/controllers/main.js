@@ -10,8 +10,6 @@ const getMainPage = asyncHandler(async (req, res, next) => {
     ? req.params.folderId
     : res.locals.currentUser.rootFolderId;
 
-  console.log(req.user.id);
-
   // get info from delete function -> pass variable on to view to render toast
   const tempDeleteSuccess = req.session.deleteSuccess;
   req.session.deleteSuccess = false;

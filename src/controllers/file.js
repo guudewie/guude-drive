@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const fileModel = require("../models/fileModel");
 const multer = require("multer");
+const formatFileName = require("../lib/utils/formatFileName");
 const upload = multer({ dest: "uploads/" });
 
 const uploadFile = [
@@ -10,11 +11,19 @@ const uploadFile = [
       return res.status(400).json({ message: "No file uploaded" });
     }
 
+    const parentFolderId = req.query.folderId;
+    const userId = req.user.id;
+    const siblingsFiles = await fileModel.getFilesOfFolder(
+      parentFolderId,
+      userId
+    );
+
     for (const file of req.files) {
+      const formattedName = formatFileName(file.originalname, siblingsFiles);
       await fileModel.createFile(
-        req.user.id,
-        req.query.folderId,
-        file.originalname,
+        userId,
+        parentFolderId,
+        formattedName,
         file.size,
         file.mimetype,
         file.path

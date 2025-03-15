@@ -34,10 +34,11 @@ const getFolderContents = async (folderId, userId) => {
   return contents;
 };
 
-const getFolderOfFolder = async (parentFolderId) => {
+const getFolderOfFolder = async (parentFolderId, userId) => {
   return prisma.folder.findMany({
     where: {
       folderId: parentFolderId,
+      userId: userId,
     },
   });
 };
