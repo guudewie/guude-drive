@@ -54,4 +54,13 @@ model Folder {
   File         File[]
   folderId     String?
   rootOwner    User?    @relation("UserRootFolder")
+  shareId      Share?
+}
+
+model Share {
+  folderId   String   @id @unique
+  folder     Folder   @relation(fields: [folderId], references: [id])
+  validUntil DateTime
+  key        String   @default(nanoid(7))
+  createdAt  DateTime @default(now())
 }
