@@ -58,7 +58,8 @@ model Folder {
 }
 
 model Share {
-  folderId   String   @id @unique
+  id         String   @id @default(uuid(7))
+  folderId   String   @unique
   folder     Folder   @relation(fields: [folderId], references: [id])
   validUntil DateTime
   key        String   @default(nanoid(7))
