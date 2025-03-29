@@ -1,6 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const asyncHandler = require("express-async-handler");
 
 const createFolder = async (userId, name, folderId) => {
   return prisma.folder.create({
@@ -56,10 +55,37 @@ const deleteFolder = async (folderId, userId) => {
   });
 };
 
+const getIsShared = async (folderId, userId) => {
+  const folder = await prisma.folder.findUnique({
+    where: { id: folderId, userId: userId },
+    select: {
+      shareId: true,
+    },
+  });
+  // double ! to convert null to bollean
+  return !!folder?.shareId;
+};
+
+const getSubFoldersRec = async (folderId, userId) => {
+  const folders = await getFolderOfFolder(folderId, userId);
+
+  let allSubFolders = [...folders];
+
+  // For each subfolder, recursively get ALL of its nested subfolders
+  for (const folder of folders) {
+    const subFolders = await getSubFoldersRec(folder.id, userId);
+    allSubFolders = [...allSubFolders, ...subFolders];
+  }
+
+  return allSubFolders;
+};
+
 module.exports = {
   createFolder,
   getFolderContents,
   getFolderOfFolder,
   updateFolder,
   deleteFolder,
+  getIsShared,
+  getSubFoldersRec,
 };
