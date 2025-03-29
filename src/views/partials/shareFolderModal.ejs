@@ -15,26 +15,30 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <div class="p-4 md:p-5 space-y-4">
-                <form id="share-folder-form" class="max-w-sm mx-auto">
-                    <div class="mb-5">
-                        <label for="share-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Timeframe</label>
-                        <select id="share-time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="HOUR">1 Hour</option>
-                            <option value="DAY">1 Day</option>
-                            <option value="WEEK">1 Week</option>
-                            <option value="MONTH">1 Month</option>
-                        </select>
-                    </div>
-                    <div class="mb-5">
-                        <div class="flex items-center mb-4">
-                            <input id="cascade" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="cascade" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Include Subfolders</label>
+            <div class="p-4 md:p-5 space-y-4 max-w-sm mx-auto">
+                
+                <% if (shareLink == "") { %>
+                    <!-- share request form  -->
+                    <form id="share-folder-form" method="post" action="/request-share/<%= folderId %>">
+                        <div class="mb-5">
+                            <label for="share-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Timeframe</label>
+                            <select id="share-time" name="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value="HOUR">1 Hour</option>
+                                <option value="DAY">1 Day</option>
+                                <option value="WEEK">1 Week</option>
+                                <option value="MONTH">1 Month</option>
+                            </select>
                         </div>
-                    </div>
-
-
-                    <div class="w-full max-w-sm hidden">
+                        <div class="mb-5">
+                            <div class="flex items-center mb-4">
+                                <input id="cascade" name="cascade" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm dark:bg-gray-700 dark:border-gray-600">
+                                <label for="cascade" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Include Subfolders</label>
+                            </div>
+                        </div>
+                    </form>
+                <% } else { %>
+                    <!-- share-link section -->
+                    <div id="share-link" class="w-full max-w-sm">
                         <div class="mb-2 flex justify-between items-center">
                             <label for="website-url" class="text-sm font-medium text-gray-900 dark:text-white">Copy link to Share:</label>
                         </div>
@@ -57,16 +61,7 @@
                             </button>
                         </div>
                     </div>
-
-
-                </form>
-
-
-
-
-
-
-
+                <% } %>
             </div>
             <!-- Modal footer -->
             <div class="flex justify-end items-center p-4 md:p-5 border-t rounded-b border-gray-600">
@@ -76,43 +71,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    const SHAREFORM = document.getElementById("share-folder-form");
-        
-    SHAREFORM.addEventListener("submit", (e) => {
-        e.preventDefault();
-        
-        const shareTime = document.getElementById("share-time").value;
-        const includeCascade = document.getElementById("cascade").checked;
-        
-        // Send the request to share the folder
-        const folderId = "123"; // This should be dynamically set based on the current folder
-        const url = `/share-request/${folderId}?share-time=${shareTime}&cascade=${includeCascade}`;
-
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Update the share link input with the response URL
-                document.getElementById("website-url").value = data.shareUrl;
-                
-                // Show success indication
-                document.getElementById("default-icon").classList.add("hidden");
-                document.getElementById("success-icon").classList.remove("hidden");
-                
-                // Reset after 2 seconds
-                setTimeout(() => {
-                    document.getElementById("default-icon").classList.remove("hidden");
-                    document.getElementById("success-icon").classList.add("hidden");
-                }, 2000);
-            })
-            .catch(error => {
-                console.error('Error sharing folder:', error);
-            });
-    })
-</script>
