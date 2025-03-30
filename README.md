@@ -13,3 +13,11 @@ file upload application with node js, prisma and cloudinary
 o  limit maximum upload
 o  implement share functionality
      - give shared link a url query parameter with a unique code
+
+Sharing Pseudocode
+
+-> pass shareLink to view from main
+     = "www.sharelink.com/example" -> render link- or share-request modal
+     = "" -> render request form
+               -> update share modal in backend
+               -> redirect to main (?? How can we make modal keep open ??)

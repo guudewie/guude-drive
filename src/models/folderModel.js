@@ -18,8 +18,13 @@ const getFolderContents = async (folderId, userId) => {
       userId: userId,
     },
     include: {
-      childFolders: true,
+      childFolders: {
+        include: {
+          shareId: true,
+        },
+      },
       File: true,
+      shareId: true,
     },
   });
 

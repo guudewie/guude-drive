@@ -1,6 +1,6 @@
 export function setupUpdateModal() {
   document
-    .querySelectorAll("[data-modal-toggle='share-item']")
+    .querySelectorAll("[data-modal-toggle='update-item']")
     .forEach((button) => {
       button.addEventListener("click", (event) => {
         // Get data attributes
@@ -10,9 +10,9 @@ export function setupUpdateModal() {
 
         // Find modal elements and update them
         const modal = document.getElementById("update-item");
-        modal.querySelector("#share-item-name").value = itemName;
+        modal.querySelector("#update-item-name").value = itemName;
         modal.querySelector(
-          "#share-folder-form"
+          "#update-item-form"
         ).action = `/update/${itemId}?type=${itemType}`;
       });
     });

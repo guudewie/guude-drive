@@ -14,8 +14,11 @@ const getMainPage = asyncHandler(async (req, res, next) => {
   const tempDeleteSuccess = req.session.deleteSuccess;
   req.session.deleteSuccess = false;
 
+  const tempOpenShareModal = req.session.openShareModal;
+  req.session.openShareModal = false;
+
   // GET FOLDER CONTENTS
-  const { childFolders, File } = await folderModel.getFolderContents(
+  const { childFolders, File, shareId } = await folderModel.getFolderContents(
     folderId,
     req.user.id
   );
@@ -33,6 +36,11 @@ const getMainPage = asyncHandler(async (req, res, next) => {
 
   const formattedContent = [...formattedFiles, ...formattedFolders];
 
+  // GET SHARELINK
+  const shareLink = shareId
+    ? `${process.env.BASE_URL}/shared-drive/${folderId}?key=${shareId.key}`
+    : "";
+
   // GET BREADCRUMZ
   const breadcrumbz = await getFolderPath(folderId);
 
@@ -42,6 +50,8 @@ const getMainPage = asyncHandler(async (req, res, next) => {
     content: formattedContent,
     breadcrumbz: breadcrumbz,
     deleteSuccess: tempDeleteSuccess,
+    openShareModal: tempOpenShareModal,
+    shareLink: shareLink,
   });
 });
 

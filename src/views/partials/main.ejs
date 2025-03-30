@@ -1,14 +1,21 @@
-<section class="bg-gray-900 flex flex-grow justify-around">
+<section class="bg-gray-900 flex flex-grow justify-around max-h-[calc(100vh-4.5rem)]">
     <div class="flex flex-col gap-5 py-8 px-8 md:px-16 lg:px-32 w-full">
-        <div>
-            <div class="flex relative items-end justify-between py-4">
-                <%- include("./breadCrumbs.ejs")%>
-                <%- include("./tableHeader.ejs")%>
+        <div class="flex flex-col h-full">
+            <div class="sticky top-0 bg-gray-900 z-0">
+                <div class="flex relative items-end justify-between py-4">
+                    <%- include("./breadCrumbs.ejs")%>
+                    <%- include("./tableHeader.ejs")%>
+                </div>
             </div>
-            <%- include("./table.ejs")%>
+
+            <!-- Table wrapper with scroll -->
+            <div class="overflow-y-auto flex-grow">
+                <%- include("./table.ejs")%>
+            </div>
         </div>
     </div>
 </section>
+
 <%- include("./uploadFileModal.ejs")%>
 <%- include("./newFolderModal.ejs")%>
 <%- include("./updateItemModal.ejs")%>

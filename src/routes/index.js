@@ -57,6 +57,15 @@ router.post("/delete/:itemId", authenticate, itemController.deleteContent);
 // POST /logout - logout user
 router.get("/download/:fileId", authenticate, fileController.downloadFile);
 
+/************ GENERATE SHARE ****************/
+
+// POST /request-share - add folder to share model and return share link
+router.post(
+  "/request-share/:folderId",
+  authenticate,
+  folderController.shareFolder
+);
+
 /************ 404 ******************/
 
 router.get("*", (req, res) => {
