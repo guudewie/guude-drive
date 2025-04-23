@@ -10,4 +10,14 @@ const addToShared = async (folderId, validUntil) => {
   });
 };
 
-module.exports = { addToShared };
+const deleteDeprecatedShares = async () => {
+  return prisma.share.deleteMany({
+    where: {
+      validUntil: {
+        lt: new Date(),
+      },
+    },
+  });
+};
+
+module.exports = { addToShared, deleteDeprecatedShares };

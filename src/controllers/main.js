@@ -3,6 +3,7 @@ const folderModel = require("../models/folderModel");
 const formatDate = require("../lib/utils/formatTime");
 const formatBytes = require("../lib/utils/formatBytes");
 const getFolderPath = require("../lib/utils/getBreadCrumbz");
+const { deleteDeprecatedShares } = require("../models/shareModel");
 
 const getMainPage = asyncHandler(async (req, res, next) => {
   // take root folder if url has no folderid param
@@ -16,6 +17,9 @@ const getMainPage = asyncHandler(async (req, res, next) => {
 
   const tempOpenShareModal = req.session.openShareModal;
   req.session.openShareModal = false;
+
+  // CLEAN UP SHARE MODEL
+  await deleteDeprecatedShares();
 
   // GET FOLDER CONTENTS
   const { childFolders, File, shareId } = await folderModel.getFolderContents(
