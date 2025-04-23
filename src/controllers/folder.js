@@ -53,7 +53,7 @@ const shareFolder = asyncHandler(async (req, res, next) => {
   req.session.openShareModal = true;
 
   if (!cascade) {
-    res.redirect(`/my-drive/${folderId}`);
+    return res.redirect(`/my-drive/${folderId}`);
   }
 
   // share all sub folders
