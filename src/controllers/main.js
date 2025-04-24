@@ -59,4 +59,6 @@ const getMainPage = asyncHandler(async (req, res, next) => {
   });
 });
 
-module.exports = { getMainPage };
+const getMainPageShared = asyncHandler(async (req, res, next) => {});
+
+module.exports = { getMainPage, getMainPageShared };
