@@ -69,7 +69,7 @@ router.post(
 /************ GENERATE SHARE ****************/
 
 // GET /shared-drive - access shared drive with link
-router.get("/request-share/:folderId", mainController.getMainPageShared);
+router.get("/shared-drive/:folderId", mainController.getMainPageShared);
 
 /************ 404 ******************/
 

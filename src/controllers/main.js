@@ -3,7 +3,8 @@ const folderModel = require("../models/folderModel");
 const formatDate = require("../lib/utils/formatTime");
 const formatBytes = require("../lib/utils/formatBytes");
 const getFolderPath = require("../lib/utils/getBreadCrumbz");
-const { deleteDeprecatedShares } = require("../models/shareModel");
+const shareModel = require("../models/shareModel");
+const { serializeJsonQuery } = require("@prisma/client/runtime/library");
 
 const getMainPage = asyncHandler(async (req, res, next) => {
   // take root folder if url has no folderid param
@@ -19,7 +20,7 @@ const getMainPage = asyncHandler(async (req, res, next) => {
   req.session.openShareModal = false;
 
   // CLEAN UP SHARE MODEL
-  await deleteDeprecatedShares();
+  await shareModel.deleteDeprecatedShares();
 
   // GET FOLDER CONTENTS
   const { childFolders, File, shareId } = await folderModel.getFolderContents(
@@ -59,6 +60,50 @@ const getMainPage = asyncHandler(async (req, res, next) => {
   });
 });
 
-const getMainPageShared = asyncHandler(async (req, res, next) => {});
+const getMainPageShared = asyncHandler(async (req, res, next) => {
+  const folderId = req.params.folderId;
+  const key = req.query.key;
+  const sharedKey = await shareModel.getSharedKey(folderId);
+
+  if (!folderId)
+    throw new Error("The folder you are looking for does not exist.");
+
+  // validate key
+  if (key != sharedKey)
+    throw new Error("There seems to be an issue with the link.");
+
+  // CLEAN UP SHARE MODEL
+  await shareModel.deleteDeprecatedShares();
+
+  // GET FOLDER CONTENTS
+  const { childFolders, File } = await folderModel.getFolderContents(
+    folderId,
+    req.user.id
+  );
+
+  const formattedFiles = File.map((item) => ({
+    ...item,
+    updatedAt: formatDate(item.updatedAt),
+    size: formatBytes(item.size),
+  }));
+
+  // only include folders that are shared
+  const formattedFolders = childFolders
+    .filter((item) => {
+      item.shareId != null;
+    })
+    .map((item) => ({
+      ...item,
+      updatedAt: formatDate(item.updatedAt),
+    }));
+
+  const formattedContent = [...formattedFiles, ...formattedFolders];
+
+  res.render("./partials/shared/mainShared", {
+    layout: "./layoutAuth",
+    folderId, // current folder id
+    content: formattedContent,
+  });
+});
 
 module.exports = { getMainPage, getMainPageShared };

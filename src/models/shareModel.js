@@ -20,4 +20,12 @@ const deleteDeprecatedShares = async () => {
   });
 };
 
-module.exports = { addToShared, deleteDeprecatedShares };
+const getSharedKey = async (folderId) => {
+  const keyObject = await prisma.share.findUnique({
+    select: { key: true },
+    where: { folderId: folderId },
+  });
+  return keyObject.key;
+};
+
+module.exports = { addToShared, deleteDeprecatedShares, getSharedKey };
