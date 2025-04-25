@@ -11,12 +11,17 @@ const createFolder = async (userId, name, folderId) => {
   });
 };
 
-const getFolderContents = async (folderId, userId) => {
+const getFolderContents = async (folderId, userId = null) => {
+  // Create a base query object
+  const whereCondition = { id: folderId };
+
+  // Only add userId to the query if it's provided
+  if (userId !== null) {
+    whereCondition.userId = userId;
+  }
+
   const contents = await prisma.folder.findUnique({
-    where: {
-      id: folderId,
-      userId: userId,
-    },
+    where: whereCondition,
     include: {
       childFolders: {
         include: {

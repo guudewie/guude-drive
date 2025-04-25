@@ -76,10 +76,7 @@ const getMainPageShared = asyncHandler(async (req, res, next) => {
   await shareModel.deleteDeprecatedShares();
 
   // GET FOLDER CONTENTS
-  const { childFolders, File } = await folderModel.getFolderContents(
-    folderId,
-    req.user.id
-  );
+  const { childFolders, File } = await folderModel.getFolderContents(folderId);
 
   const formattedFiles = File.map((item) => ({
     ...item,
