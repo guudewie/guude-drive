@@ -57,7 +57,7 @@ router.post("/delete/:itemId", authenticate, itemController.deleteContent);
 // POST /download/:fileId - download file
 router.get("/download/:fileId", authenticate, fileController.downloadFile);
 
-// POST /download-shared/:fileId - download file
+// POST /download-shared/:folerId/:fileId - download file
 router.get(
   "/download-shared/:folderId/:fileId",
   fileController.downloadSharedFile
