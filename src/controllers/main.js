@@ -99,6 +99,7 @@ const getMainPageShared = asyncHandler(async (req, res, next) => {
   res.render("./partials/shared/mainShared", {
     layout: "./layoutAuth",
     folderId, // current folder id
+    key,
     content: formattedContent,
   });
 });

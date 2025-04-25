@@ -22,9 +22,15 @@ const createFile = async (
   });
 };
 
-const getFileById = async (fileId, userId) => {
+const getFileById = async (fileId, userId = null) => {
+  let whereCondition = { id: fileId };
+
+  if (userId !== null) {
+    whereCondition.userId = userId;
+  }
+
   const file = await prisma.file.findUnique({
-    where: { id: fileId, userId },
+    where: whereCondition,
   });
 
   // user/file combi not found

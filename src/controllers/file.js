@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const fileModel = require("../models/fileModel");
 const multer = require("multer");
 const formatFileName = require("../lib/utils/formatFileName");
+const { getSharedKey } = require("../models/shareModel");
 const upload = multer({ dest: "uploads/" });
 
 const uploadFile = [
@@ -48,4 +49,26 @@ const downloadFile = asyncHandler(async (req, res, next) => {
   });
 });
 
-module.exports = { uploadFile, downloadFile };
+const downloadSharedFile = asyncHandler(async (req, res, next) => {
+  // check whether requested file is in url folder with key
+  const folderId = req.params.folderId;
+  const key = req.query.key;
+  const sharedKey = await getSharedKey(folderId);
+
+  // validate key
+  if (key != sharedKey) throw new Error("There seems to be an issue.");
+
+  const file = await fileModel.getFileById(req.params.fileId);
+
+  if (!file) {
+    return res.status(404).json({ message: "File not found" });
+  }
+
+  res.download(file.storageUrl, file.name, (err) => {
+    if (err) {
+      return next(err);
+    }
+  });
+});
+
+module.exports = { uploadFile, downloadFile, downloadSharedFile };

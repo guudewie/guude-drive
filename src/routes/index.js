@@ -34,28 +34,34 @@ router.get("/logout", authController.logout);
 
 /************ UPLOAD ******************/
 
-// GET /logout - logout user
+// POST /upload - upload file
 router.post("/upload", authenticate, fileController.uploadFile);
 
 /************ FOLDER ******************/
 
-// GET /logout - logout user
+// POST /new-folder - create new folder
 router.post("/new-folder", authenticate, folderController.createNewFolder);
 
 /************ UPDATE ******************/
 
-// POST /logout - logout user
+// POST /update/:itemId - update item (folder/file) name
 router.post("/update/:itemId", authenticate, itemController.updateContent);
 
 /************ DELETE ******************/
 
-// POST /logout - logout user
+// POST /delete/:itemId - delete item (folder/file)
 router.post("/delete/:itemId", authenticate, itemController.deleteContent);
 
 /************ DOWNLOAD ****************/
 
-// POST /logout - logout user
+// POST /download/:fileId - download file
 router.get("/download/:fileId", authenticate, fileController.downloadFile);
+
+// POST /download-shared/:fileId - download file
+router.get(
+  "/download-shared/:folderId/:fileId",
+  fileController.downloadSharedFile
+);
 
 /************ GENERATE SHARE ****************/
 
