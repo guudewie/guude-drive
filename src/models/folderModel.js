@@ -55,6 +55,22 @@ const getFolderOfFolder = async (parentFolderId, userId) => {
   });
 };
 
+const getParentFolder = async (folderId) => {
+  const folder = await prisma.folder.findUnique({
+    where: { id: folderId },
+    include: { parentFolder: true },
+  });
+
+  if (!folder.parentFolder) return null;
+
+  const parent = await prisma.folder.findUnique({
+    where: { id: folder.parentFolder.id },
+    include: { shareId: true, parentFolder: true },
+  });
+
+  return { id: parent.id, key: parent.shareId.key };
+};
+
 const updateFolder = async (userId, folderId, name) => {
   return prisma.folder.update({
     where: { id: folderId, userId: userId },
@@ -97,6 +113,7 @@ module.exports = {
   createFolder,
   getFolderContents,
   getFolderOfFolder,
+  getParentFolder,
   updateFolder,
   deleteFolder,
   getIsShared,

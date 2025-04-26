@@ -94,11 +94,15 @@ const getMainPageShared = asyncHandler(async (req, res, next) => {
 
   const formattedContent = [...formattedFiles, ...formattedFolders];
 
+  // GET PARENT FOLDER for navigation
+  let parent = await folderModel.getParentFolder(folderId);
+
   res.render("./partials/shared/mainShared", {
     layout: "./layoutAuth",
     folderId, // current folder id
     key,
     content: formattedContent,
+    parent,
   });
 });
 
