@@ -86,9 +86,7 @@ const getMainPageShared = asyncHandler(async (req, res, next) => {
 
   // only include folders that are shared
   const formattedFolders = childFolders
-    .filter((item) => {
-      item.shareId != null;
-    })
+    .filter((item) => item.shareId)
     .map((item) => ({
       ...item,
       updatedAt: formatDate(item.updatedAt),
