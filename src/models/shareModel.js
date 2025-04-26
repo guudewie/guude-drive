@@ -10,6 +10,12 @@ const addToShared = async (folderId, validUntil) => {
   });
 };
 
+const removeShared = async (folderId) => {
+  return prisma.share.delete({
+    where: { folderId: folderId },
+  });
+};
+
 const deleteDeprecatedShares = async () => {
   return prisma.share.deleteMany({
     where: {
@@ -28,4 +34,9 @@ const getSharedKey = async (folderId) => {
   return keyObject.key;
 };
 
-module.exports = { addToShared, deleteDeprecatedShares, getSharedKey };
+module.exports = {
+  addToShared,
+  removeShared,
+  deleteDeprecatedShares,
+  getSharedKey,
+};

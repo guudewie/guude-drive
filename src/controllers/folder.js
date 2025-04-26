@@ -5,7 +5,7 @@ const {
   getIsShared,
   getSubFoldersRec,
 } = require("../models/folderModel");
-const { addToShared } = require("../models/shareModel");
+const { addToShared, removeShared } = require("../models/shareModel");
 const formatFolderName = require("../lib/utils/formatFolderName");
 const { add } = require("date-fns");
 
@@ -58,11 +58,32 @@ const shareFolder = asyncHandler(async (req, res, next) => {
 
   // share all sub folders
   const allSubFolders = await getSubFoldersRec(folderId, userId);
-  allSubFolders.forEach(async (folder) => {
-    await addToShared(folder.id, validUntil);
-  });
+  allSubFolders
+    .filter((folder) => folder.shareId == null)
+    .forEach(async (folder) => {
+      await addToShared(folder.id, validUntil);
+    });
 
   res.redirect(`/my-drive/${folderId}`);
 });
 
-module.exports = { createNewFolder, shareFolder };
+const removeFromShared = asyncHandler(async (req, res, next) => {
+  const folderId = req.params.folderId;
+  const userId = req.user.id;
+
+  // remove curr folder
+  await removeShared(folderId);
+
+  // remove subfolders
+  const allSubFolders = await getSubFoldersRec(folderId, userId, true);
+  console.log(allSubFolders);
+  allSubFolders
+    .filter((folder) => folder.shareId != null)
+    .forEach(async (folder) => {
+      await removeShared(folder.id);
+    });
+
+  res.redirect(`/my-drive/${folderId}`);
+});
+
+module.exports = { createNewFolder, shareFolder, removeFromShared };

@@ -49,6 +49,9 @@ const getFolderOfFolder = async (parentFolderId, userId) => {
       folderId: parentFolderId,
       userId: userId,
     },
+    include: {
+      shareId: true,
+    },
   });
 };
 

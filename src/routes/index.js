@@ -63,7 +63,7 @@ router.get(
   fileController.downloadSharedFile
 );
 
-/************ GENERATE SHARE ****************/
+/************ SHARE ****************/
 
 // POST /request-share - add folder to share model and return share link
 router.post(
@@ -72,10 +72,11 @@ router.post(
   folderController.shareFolder
 );
 
-/************ GENERATE SHARE ****************/
-
 // GET /shared-drive - access shared drive with link
 router.get("/shared-drive/:folderId", mainController.getMainPageShared);
+
+// POST /cancel-shared - remove folder from sharing
+router.post("/cancel-shared/:folderId", folderController.removeFromShared);
 
 /************ 404 ******************/
 
